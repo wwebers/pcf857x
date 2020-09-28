@@ -295,7 +295,12 @@ void PCF857X::updateGPIO() {
 
 	/* Start communication and send GPIO values as byte */
 	Wire.beginTransmission(_address);
-	I2CWRITE(value & 0x00FF);
-	I2CWRITE((value & 0xFF00) >> 8);
+	if (_chip == CHIP_PCF8575) {
+		I2CWRITE(value & 0x00FF);
+		I2CWRITE((value & 0xFF00) >> 8);
+	}
+	else {
+		I2CWRITE(value & 0x00FF);
+	}
 	Wire.endTransmission();
 }
